@@ -5,6 +5,7 @@
 
 #include <string>
 
+// luaStack帮助类
 class LuaStack
 {
 public:
