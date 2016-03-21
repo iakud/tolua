@@ -1,8 +1,6 @@
 #include "tolua.h"
 
 #include "LuaStack.h"
-#include "tolua.h"
-#include "tolua_shared.h"
 
 #include <iostream>
 

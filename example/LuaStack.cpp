@@ -1,7 +1,5 @@
 #include "LuaStack.h"
 
-#include "tolua.h"
-
 #include <stdexcept>
 #include <string.h>
 
@@ -145,13 +143,20 @@ void LuaStack::pushString(const std::string& stringValue) {
 	lua_pushstring(L, stringValue.c_str());
 }
 
-void LuaStack::pushUserType(void* p, const char* type) {
-	tolua_pushusertype(L, p, type);
+void LuaStack::pushUserType(void* p, const char* name) {
+	tolua_pushusertype(L, p, name);
 }
 
-void LuaStack::pushUserType(void* p, const std::string& type)
-{
-	tolua_pushusertype(L, p, type.c_str());
+void LuaStack::pushUserType(void* p, const std::string& name) {
+	tolua_pushusertype(L, p, name.c_str());
+}
+
+void LuaStack::pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const char* name) {
+	tolua_pushsharedusertype(L, ptr, name);
+}
+
+void LuaStack::pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const std::string& name) {
+	tolua_pushsharedusertype(L, ptr, name.c_str());
 }
 
 //
@@ -185,12 +190,20 @@ const char* LuaStack::toString(int index, size_t& length) {
 	return lua_tolstring(L, index, &length);
 }
 
-void* LuaStack::toUserType(int index, const char* type) {
-	return tolua_tousertype(L, index, type);
+void* LuaStack::toUserType(int index, const char* name) {
+	return tolua_tousertype(L, index, name);
 }
 
-void* LuaStack::toUserType(int index, const std::string& type) {
-	return tolua_tousertype(L, index, type.c_str());
+void* LuaStack::toUserType(int index, const std::string& name) {
+	return tolua_tousertype(L, index, name.c_str());
+}
+
+std::tr1::shared_ptr<void> LuaStack::toSharedUserType(int index, const char* name) {
+	return tolua_tosharedusertype(L, index, name);
+}
+
+std::tr1::shared_ptr<void> LuaStack::toSharedUserType(int index, const std::string& name) {
+	return tolua_tosharedusertype(L, index, name.c_str());
 }
 
 //

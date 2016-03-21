@@ -1,7 +1,8 @@
 #ifndef _LUA_STACK_H_
 #define _LUA_STACK_H_
 
-#include <luajit-2.0/lua.hpp>
+#include "tolua.h"
+#include "tolua_shared.h"
 
 #include <string>
 
@@ -33,8 +34,10 @@ public:
 	void pushString(const char* stringValue);
 	void pushString(const char* stringValue, size_t length);
 	void pushString(const std::string& stringValue);
-	void pushUserType(void* p, const char* type);
-	void pushUserType(void* p, const std::string& type);
+	void pushUserType(void* p, const char* name);
+	void pushUserType(void* p, const std::string& name);
+	void pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const char* name);
+	void pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const std::string& name);
 
 	//
 	// to value
@@ -46,8 +49,10 @@ public:
 	double toDouble(int index);
 	const char* toString(int index);
 	const char* toString(int index, size_t& length);
-	void* toUserType(int index, const char* type);
-	void* toUserType(int index, const std::string& type);
+	void* toUserType(int index, const char* name);
+	void* toUserType(int index, const std::string& name);
+	std::tr1::shared_ptr<void> toSharedUserType(int index, const char* name);
+	std::tr1::shared_ptr<void> toSharedUserType(int index, const std::string& name);
 
 	//
 	void clean(void);
