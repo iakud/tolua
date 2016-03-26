@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-class ClassA {
+class ClassA : public std::tr1::enable_shared_from_this<ClassA> {
 public:
 	const char* getMessage() { return "call getMessage"; }
 };
@@ -62,9 +62,18 @@ int main() {
 	// register c++obj to lua
 	lua_register_class(luaStack->getLuaState());
 	// do
+    std::tr1::shared_ptr<ClassA> a(new ClassA());
+    std::tr1::shared_ptr<ClassA> clone_a = a->shared_from_this();
 	try {
 		luaStack->load("example");
-		luaStack->executeGlobalFunction("testfunc", 0);
+        luaStack->executeGlobalFunction("createfunc", 0);
+        luaStack->clean();
+        luaStack->pushSharedUserType(a, "ClassA");
+		luaStack->executeGlobalFunction("setfunc", 1);
+        luaStack->clean();
+        luaStack->pushSharedUserType(clone_a, "ClassA");
+        luaStack->executeGlobalFunction("checkfunc", 1);
+        luaStack->clean();
 	} catch (std::exception& ex) {
 		std::cout<<ex.what()<<std::endl;
 	}

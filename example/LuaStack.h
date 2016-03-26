@@ -36,8 +36,8 @@ public:
 	void pushString(const std::string& stringValue);
 	void pushUserType(void* p, const char* name);
 	void pushUserType(void* p, const std::string& name);
-	void pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const char* name);
-	void pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const std::string& name);
+	void pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const char* name);
+	void pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const std::string& name);
 
 	//
 	// to value

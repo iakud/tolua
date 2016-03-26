@@ -151,11 +151,11 @@ void LuaStack::pushUserType(void* p, const std::string& name) {
 	tolua_pushusertype(L, p, name.c_str());
 }
 
-void LuaStack::pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const char* name) {
+void LuaStack::pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const char* name) {
 	tolua_pushsharedusertype(L, ptr, name);
 }
 
-void LuaStack::pushSharedUserType(std::tr1::shared_ptr<void>& ptr, const std::string& name) {
+void LuaStack::pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const std::string& name) {
 	tolua_pushsharedusertype(L, ptr, name.c_str());
 }
 
@@ -236,17 +236,23 @@ void LuaStack::executeString(const char* codes) {
 void LuaStack::execute(int nargs, int nresults) {
 	int functionIndex = -(nargs + 1);
 	int traceback = 0;
-    lua_getglobal(L, "__TRACKBACK__");
-    if (!lua_isfunction(L, -1)) {
-        lua_pop(L, 1);
-    } else {
-        lua_insert(L, functionIndex - 1);
-        traceback = functionIndex - 1;
-    }
+	lua_getglobal(L, "__TRACKBACK__");
+	if (!lua_isfunction(L, -1)) {
+	    lua_pop(L, 1);
+	} else {
+	    lua_insert(L, functionIndex - 1);
+	    traceback = functionIndex - 1;
+	}
 
 	if(lua_pcall(L, nargs, nresults, traceback) != 0) {
-		std::string error = lua_tostring(L, -1);
-		lua_pop(L, 1);
-		throw std::runtime_error(error);
+		if (traceback) {
+			lua_pop(L, 2);
+		} else {
+			std::string error = lua_tostring(L, -1);
+			lua_pop(L, 1);
+			throw std::runtime_error(error);
+		}
+	} else if (traceback) {
+		lua_remove(L, 1);
 	}
 }
