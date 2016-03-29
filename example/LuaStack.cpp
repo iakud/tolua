@@ -245,13 +245,9 @@ void LuaStack::execute(int nargs, int nresults) {
 	}
 
 	if(lua_pcall(L, nargs, nresults, traceback) != 0) {
-		if (traceback) {
-			lua_pop(L, 2);
-		} else {
-			std::string error = lua_tostring(L, -1);
-			lua_pop(L, 1);
-			throw std::runtime_error(error);
-		}
+		std::string error = lua_tostring(L, -1);
+		lua_pop(L, traceback ? 2 : 1);
+		throw std::runtime_error(error);
 	} else if (traceback) {
 		lua_remove(L, 1);
 	}
