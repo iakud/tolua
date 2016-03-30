@@ -140,7 +140,7 @@ void LuaStack::pushString(const char* stringValue, size_t length) {
 }
 
 void LuaStack::pushString(const std::string& stringValue) {
-	lua_pushstring(L, stringValue.c_str());
+	lua_pushlstring(L, stringValue.c_str(), stringValue.size());
 }
 
 void LuaStack::pushUserType(void* p, const char* name) {
