@@ -55,7 +55,9 @@ public:
 	std::tr1::shared_ptr<void> toSharedUserType(int index, const std::string& name);
 
 	//
+	int gettop();
 	void clean(void);
+	int formatIndex(int index);
 
 	//
 	// excute

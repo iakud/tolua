@@ -207,24 +207,34 @@ std::tr1::shared_ptr<void> LuaStack::toSharedUserType(int index, const std::stri
 }
 
 //
+int LuaStack::gettop() {
+	return lua_gettop(L);
+}
+
 void LuaStack::clean(void) {
 	lua_settop(L, 0);
+}
+
+int LuaStack::formatIndex(int index) {
+	return index >= 0 ? index : (lua_gettop(L) + 1 + index);
 }
 
 //
 // execute
 //
 void LuaStack::executeGlobalFunction(const char* functionName, int nargs, int nresults) {
-	int functionIndex = -(nargs + 1);
 	lua_getglobal(L, functionName);
-	lua_insert(L, functionIndex);
+	if (nargs > 0) {
+		lua_insert(L, -(nargs + 1));
+	}
 	execute(nargs, nresults);
 }
 
 void LuaStack::executeGlobalFunction(const std::string& functionName, int nargs, int nresults) {
-	int functionIndex = -(nargs + 1);
 	lua_getglobal(L, functionName.c_str());
-	lua_insert(L, functionIndex);
+	if (nargs > 0) {
+		lua_insert(L, -(nargs + 1));
+	}
 	execute(nargs, nresults);
 }
 
@@ -234,14 +244,14 @@ void LuaStack::executeString(const char* codes) {
 }
 
 void LuaStack::execute(int nargs, int nresults) {
-	int functionIndex = -(nargs + 1);
+	int functionIndex = formatIndex(-(nargs + 1));
 	int traceback = 0;
 	lua_getglobal(L, "__TRACKBACK__");
 	if (!lua_isfunction(L, -1)) {
 	    lua_pop(L, 1);
 	} else {
-	    lua_insert(L, functionIndex - 1);
-	    traceback = functionIndex - 1;
+	    lua_insert(L, functionIndex);
+	    traceback = functionIndex;
 	}
 
 	if(lua_pcall(L, nargs, nresults, traceback) != 0) {
@@ -249,6 +259,6 @@ void LuaStack::execute(int nargs, int nresults) {
 		lua_pop(L, traceback ? 2 : 1);
 		throw std::runtime_error(error);
 	} else if (traceback) {
-		lua_remove(L, 1);
+		lua_remove(L, traceback);
 	}
 }

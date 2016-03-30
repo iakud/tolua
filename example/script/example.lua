@@ -10,6 +10,10 @@ function setfunc(a)
 	a.string = "tolua string"
 end
 
+function getfunc(a)
+	return a.number, a.string
+end
+
 function checkfunc(a)
 	assert(a.number)
 	assert(a.string)

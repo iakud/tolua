@@ -67,12 +67,21 @@ int main() {
 	try {
 		luaStack->load("example");
         luaStack->executeGlobalFunction("createfunc", 0);
+        std::cout<<"call createfunc"<<std::endl;
         luaStack->clean();
         luaStack->pushSharedUserType(a, "ClassA");
 		luaStack->executeGlobalFunction("setfunc", 1);
+        std::cout<<"call setfunc"<<std::endl;
+        luaStack->clean();
+        luaStack->pushSharedUserType(a, "ClassA");
+        luaStack->executeGlobalFunction("getfunc", 1, 2);
+        int luanumber = luaStack->toInt(-2);
+        std::string luastring = luaStack->toString(-1);
+        std::cout<<"call getfunc"<<",number="<<luanumber<<",string="<<luastring<<std::endl;
         luaStack->clean();
         luaStack->pushSharedUserType(clone_a, "ClassA");
         luaStack->executeGlobalFunction("checkfunc", 1);
+        std::cout<<"call checkfunc"<<std::endl;
         luaStack->clean();
 	} catch (std::exception& ex) {
 		std::cout<<ex.what()<<std::endl;
