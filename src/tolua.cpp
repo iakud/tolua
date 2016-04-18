@@ -25,7 +25,7 @@ void tolua_open(lua_State* L) {
 	lua_setfield(L, LUA_REGISTRYINDEX, "tolua_usertype_mapping");
 	// function mapping
 	lua_newtable(L);
-	lua_setfield(L, LUA_REGISTRYINDEX, "tolua_function_mapping");
+	lua_setfield(L, LUA_REGISTRYINDEX, "tolua_function_ref");
 }
 
 void tolua_module(lua_State* L, const char* name) {
