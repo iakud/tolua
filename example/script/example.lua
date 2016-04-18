@@ -1,7 +1,15 @@
 function createfunc()
 	-- 调用C++接口
 	local a = ClassA:create()
+	a:setCallback(function(msg)
+		onCallback(a, msg)
+	end)
+	return a
+end
+
+function onCallback(a, msg)
 	print(a:getMessage())
+	print(msg)
 end
 
 function setfunc(a)

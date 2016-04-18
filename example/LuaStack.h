@@ -3,6 +3,7 @@
 
 #include "tolua.h"
 #include "tolua_shared.h"
+#include "tolua_function.h"
 
 #include <string>
 
@@ -38,6 +39,7 @@ public:
 	void pushUserType(void* p, const std::string& name);
 	void pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const char* name);
 	void pushSharedUserType(const std::tr1::shared_ptr<void>& ptr, const std::string& name);
+	void pushFunction(tolua_function_ref* func);
 
 	//
 	// to value
@@ -53,6 +55,7 @@ public:
 	void* toUserType(int index, const std::string& name);
 	std::tr1::shared_ptr<void> toSharedUserType(int index, const char* name);
 	std::tr1::shared_ptr<void> toSharedUserType(int index, const std::string& name);
+	tolua_function_ref* toFunction(int index);
 
 	//
 	int gettop();
@@ -64,6 +67,7 @@ public:
 	//
 	void executeGlobalFunction(const char* functionName, int nargs, int nresults = LUA_MULTRET);
 	void executeGlobalFunction(const std::string& functionName, int nargs, int nresults = LUA_MULTRET);
+	void executeFunction(tolua_function_ref* func, int nargs, int nresults = LUA_MULTRET);
 	void executeString(const char* codes);
 
 protected:
