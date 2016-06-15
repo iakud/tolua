@@ -12,15 +12,17 @@ void tolua_open(lua_State* L) {
 	// tolua_peers
 	lua_newtable(L);
 	lua_createtable(L, 0, 1);
-	lua_pushstring(L, "k");
-	lua_setfield(L, -2, "__mode");
+	lua_pushliteral(L, "__mode");
+	lua_pushliteral(L, "k");
+	lua_rawset(L, -3);
 	lua_setmetatable(L, -2);
 	lua_setfield(L, LUA_REGISTRYINDEX, "tolua_peers");
 	// usertype mapping
 	lua_newtable(L);
 	lua_createtable(L, 0, 1);
-	lua_pushstring(L, "v");
-	lua_setfield(L, -2, "__mode");
+	lua_pushliteral(L, "__mode");
+	lua_pushliteral(L, "v");
+	lua_rawset(L, -3);
 	lua_setmetatable(L, -2);
 	lua_setfield(L, LUA_REGISTRYINDEX, "tolua_usertype_mapping");
 	// function mapping
@@ -126,14 +128,35 @@ void tolua_super(lua_State* L, const char* name, const char* base) {
 	lua_pop(L, 2);
 }
 
-void tolua_mapping(lua_State* L, const char* name) {
+void tolua_mapping(lua_State* L, const char* name, const char* base) {
 	luaL_getmetatable(L, name);
+	if (lua_isnil(L, -1)) {
+		lua_pop(L, 1);
+		return;
+	}
+	if (base && *base) {
+		luaL_getmetatable(L, base);
+		if (lua_isnil(L, -1)) {
+			lua_pushstring(L, "tolua_usertype_mapping");
+			lua_rawget(L,-2);
+			if (!lua_isnil(L, -1)) {
+				lua_pushstring(L, "tolua_usertype_mapping");
+				lua_insert(L, -2);
+				lua_rawget(L,-4);
+				lua_pop(L, 2);
+				return;
+			}
+		}
+		lua_pop(L, 1);
+	}
+	lua_pushstring(L, "tolua_usertype_mapping");
 	lua_newtable(L);
 	lua_createtable(L, 0, 1);
-	lua_pushstring(L, "v");
-	lua_setfield(L, -2, "__mode");
+	lua_pushliteral(L, "__mode");
+	lua_pushliteral(L, "v");
+	lua_rawset(L, -3);
 	lua_setmetatable(L, -2);
-	lua_setfield(L, -2, "tolua_usertype_mapping");
+	lua_rawset(L, -3);
 	lua_pop(L, 1);
 }
 
@@ -153,11 +176,11 @@ void tolua_usertable(lua_State* L, const char* lname, const char* name) {
 }
 
 void tolua_class(lua_State* L, const char* lname, const char* name, const char* base) {
+	tolua_mapping(L, name, base);
 	if (base && *base) {
 		tolua_inheritance(L, name, base);
 		tolua_super(L, name, base);
 	}
-	tolua_mapping(L, name);
 	tolua_usertable(L, lname, name);
 }
 
