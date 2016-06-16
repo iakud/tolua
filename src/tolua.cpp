@@ -83,22 +83,50 @@ void tolua_inheritance(lua_State* L, const char* name, const char* base) {
 		lua_pop(L, 1);
 		return;
 	}
-	luaL_getmetatable(L, base);
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 2);
-		return;
+	if (base && *base) {
+		luaL_getmetatable(L, base);
+	} else {
+		lua_pushnil(L);
+	}
+
+	if (!lua_isnil(L, -1)) {
+		lua_pushstring(L, "tolua_usertype_mapping");
+		lua_rawget(L,-2);
+	} else {
+		lua_pushnil(L);
+	}
+
+	if (!lua_isnil(L, -1)) {
+		lua_pushstring(L, "tolua_usertype_mapping");
+		lua_insert(L, -2);
+		lua_rawset(L,-4);
+	} else {
+		lua_pop(L, 1);
+		lua_pushstring(L, "tolua_usertype_mapping");
+		lua_newtable(L);
+		lua_createtable(L, 0, 1);
+		lua_pushliteral(L, "__mode");
+		lua_pushliteral(L, "v");
+		lua_rawset(L, -3);
+		lua_setmetatable(L, -2);
+		lua_rawset(L, -4);
 	}
 	lua_setmetatable(L, -2);
 	lua_pop(L, 1);
 }
 
 void tolua_super(lua_State* L, const char* name, const char* base) {
-	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_super");
-	luaL_getmetatable(L, base);
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 2);
+	if (base && *base) {
+		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_super");
+		luaL_getmetatable(L, base);
+		if (lua_isnil(L, -1)) {
+			lua_pop(L, 2);
+			return;
+		}
+	} else {
 		return;
 	}
+	
 	lua_rawget(L, -2);
 	luaL_getmetatable(L, name);
 	if (lua_isnil(L, -1)) {
@@ -128,38 +156,6 @@ void tolua_super(lua_State* L, const char* name, const char* base) {
 	lua_pop(L, 2);
 }
 
-void tolua_mapping(lua_State* L, const char* name, const char* base) {
-	luaL_getmetatable(L, name);
-	if (lua_isnil(L, -1)) {
-		lua_pop(L, 1);
-		return;
-	}
-	if (base && *base) {
-		luaL_getmetatable(L, base);
-		if (lua_isnil(L, -1)) {
-			lua_pushstring(L, "tolua_usertype_mapping");
-			lua_rawget(L,-2);
-			if (!lua_isnil(L, -1)) {
-				lua_pushstring(L, "tolua_usertype_mapping");
-				lua_insert(L, -2);
-				lua_rawget(L,-4);
-				lua_pop(L, 2);
-				return;
-			}
-		}
-		lua_pop(L, 1);
-	}
-	lua_pushstring(L, "tolua_usertype_mapping");
-	lua_newtable(L);
-	lua_createtable(L, 0, 1);
-	lua_pushliteral(L, "__mode");
-	lua_pushliteral(L, "v");
-	lua_rawset(L, -3);
-	lua_setmetatable(L, -2);
-	lua_rawset(L, -3);
-	lua_pop(L, 1);
-}
-
 void tolua_usertable(lua_State* L, const char* lname, const char* name) {
 	lua_newtable(L);
 	luaL_getmetatable(L, name);
@@ -176,11 +172,8 @@ void tolua_usertable(lua_State* L, const char* lname, const char* name) {
 }
 
 void tolua_class(lua_State* L, const char* lname, const char* name, const char* base) {
-	tolua_mapping(L, name, base);
-	if (base && *base) {
-		tolua_inheritance(L, name, base);
-		tolua_super(L, name, base);
-	}
+	tolua_inheritance(L, name, base);
+	tolua_super(L, name, base);
 	tolua_usertable(L, lname, name);
 }
 
