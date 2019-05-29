@@ -1,7 +1,7 @@
 #ifndef _TOLUA_H_
 #define _TOLUA_H_
 
-#include <luajit-2.0/lua.hpp>
+#include <luajit-2.1/lua.hpp>
 
 void tolua_open(lua_State* L);
 

@@ -1,7 +1,7 @@
 #ifndef _TOLUA_FUNCTION_H_
 #define _TOLUA_FUNCTION_H_
 
-#include <luajit-2.0/lua.hpp>
+#include <luajit-2.1/lua.hpp>
 
 struct tolua_function_ref;
 

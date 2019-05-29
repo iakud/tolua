@@ -72,11 +72,11 @@ static int class_newindex_event(lua_State* L) {
 
 void tolua_classevents(lua_State* L) {
 	lua_pushstring(L, "__index");
-    lua_pushcfunction(L, class_index_event);
-    lua_rawset(L, -3);
-    lua_pushstring(L, "__newindex");
-    lua_pushcfunction(L, class_newindex_event);
-    lua_rawset(L, -3);
+	lua_pushcfunction(L, class_index_event);
+	lua_rawset(L, -3);
+	lua_pushstring(L, "__newindex");
+	lua_pushcfunction(L, class_newindex_event);
+	lua_rawset(L, -3);
 }
 
 void tolua_collector(lua_State* L, lua_CFunction col) {
