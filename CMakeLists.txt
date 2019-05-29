@@ -17,23 +17,25 @@ set(CXX_FLAGS
 	-Wwrite-strings
 	-march=native
 	-std=c++11
-	-pthread
 	-rdynamic
 	)
 
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
+set(CMAKE_C_COMPILER "gcc")
 set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O2 -finline-limit=1000 -DNDEBUG")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR})
 
-aux_source_directory(${PROJECT_SOURCE_DIR}/src SOURCE_FILES)
-add_library(tolua ${SOURCE_FILES})
+string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 
-# add_executable(test ${SOURCE_FILES})
+message(STATUS "CXX_FLAGS = " ${CMAKE_CXX_FLAGS} " "
+	${CMAKE_CXX_FLAGS_${BUILD_TYPE}})
+
+add_subdirectory(tolua)
 
 if(NOT CMAKE_BUILD_NO_EXAMPLES)
 	add_subdirectory(example)

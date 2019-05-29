@@ -1,5 +1,3 @@
-#include "tolua.h"
-
 #include "LuaStack.h"
 
 #include <iostream>

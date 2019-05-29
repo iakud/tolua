@@ -1,9 +1,9 @@
 #ifndef _LUA_STACK_H_
 #define _LUA_STACK_H_
 
-#include "tolua.h"
-#include "tolua_shared.h"
-#include "tolua_function.h"
+#include "tolua/tolua.h"
+#include "tolua/tolua_shared.h"
+#include "tolua/tolua_function.h"
 
 #include <string>
 
