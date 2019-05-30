@@ -1,7 +1,15 @@
 #ifndef _TOLUA_SHARED_H_
 #define _TOLUA_SHARED_H_
 
-#include <luajit-2.1/lua.hpp>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <lua.h>
+
+#ifdef __cplusplus
+}
+#endif
 
 #include <memory>
 

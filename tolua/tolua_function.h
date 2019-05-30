@@ -1,7 +1,15 @@
 #ifndef _TOLUA_FUNCTION_H_
 #define _TOLUA_FUNCTION_H_
 
-#include <luajit-2.1/lua.hpp>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <lua.h>
+
+#ifdef __cplusplus
+}
+#endif
 
 struct tolua_function_ref;
 

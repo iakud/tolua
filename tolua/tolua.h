@@ -1,7 +1,17 @@
 #ifndef _TOLUA_H_
 #define _TOLUA_H_
 
-#include <luajit-2.1/lua.hpp>
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include <lua.h>
+#include <lauxlib.h>
+#include <lualib.h>
+
+#ifdef __cplusplus
+}
+#endif
 
 void tolua_open(lua_State* L);
 

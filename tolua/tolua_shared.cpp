@@ -1,5 +1,7 @@
 #include "tolua_shared.h"
 
+#include <lauxlib.h>
+
 int tolua_sharedcol(lua_State* L) {
 	if (!lua_isuserdata(L, -1)) {
 		return 0;
