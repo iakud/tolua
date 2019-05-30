@@ -18,7 +18,7 @@ tolua_function_ref* tolua_ref_function(lua_State* L, int index) {
 	return func;
 }
 
-void tolua_push_function_by_ref(lua_State* L, tolua_function_ref* func) {
+void tolua_push_function_by_ref(lua_State* L, struct tolua_function_ref* func) {
 	if (func == NULL) {
 		lua_pushnil(L);
 		return;
@@ -29,7 +29,7 @@ void tolua_push_function_by_ref(lua_State* L, tolua_function_ref* func) {
 	lua_remove(L, -2);
 }
 
-void tolua_remove_function_by_ref(lua_State* L, tolua_function_ref* func) {
+void tolua_remove_function_by_ref(lua_State* L, struct tolua_function_ref* func) {
 	if (func == NULL)
 		return;
 	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_function_ref");

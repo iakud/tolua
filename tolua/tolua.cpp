@@ -185,7 +185,7 @@ void tolua_endusertype(lua_State* L) {
 	lua_pop(L, 1);
 }
 
-bool tolua_isusertable(lua_State* L, int index, const char* name) {
+int tolua_isusertable(lua_State* L, int index, const char* name) {
 	lua_pushvalue(L, index);
 	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_usertable");
 	lua_insert(L, -2);
@@ -196,14 +196,14 @@ bool tolua_isusertable(lua_State* L, int index, const char* name) {
 			luaL_getmetatable(L, name);
 			if (lua_rawequal(L, -1, -2)) {
 				lua_pop(L, 2);
-				return true;
+				return 1;
 			}
 			lua_pop(L, 2);
 		}
 	} else {
 		lua_pop(L, 2);
 	}
-	return false;
+	return 0;
 }
 
 void tolua_pushusertype(lua_State* L, void* p, const char* name) {
