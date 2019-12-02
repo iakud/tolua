@@ -1,9 +1,18 @@
 #ifndef _LUA_STACK_H_
 #define _LUA_STACK_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "tolua/tolua.h"
-#include "tolua/tolua_shared.h"
 #include "tolua/tolua_function.h"
+
+#ifdef __cplusplus
+}
+#endif
+
+#include "tolua/tolua_shared.h"
 
 #include <string>
 

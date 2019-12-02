@@ -37,6 +37,8 @@ message(STATUS "CXX_FLAGS = " ${CMAKE_CXX_FLAGS} " "
 
 add_subdirectory(tolua)
 
-if(NOT CMAKE_BUILD_NO_EXAMPLES)
-	add_subdirectory(example)
+if(NOT CMAKE_BUILD_NO_SHARED)
+	if(NOT CMAKE_BUILD_NO_EXAMPLES)
+		add_subdirectory(example)
+	endif()
 endif()
