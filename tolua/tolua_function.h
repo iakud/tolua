@@ -11,7 +11,7 @@ extern "C" {
 }
 #endif
 
-struct tolua_function_ref;
+typedef struct tolua_function_ref tolua_function_ref;
 
 struct tolua_function_ref* tolua_ref_function(lua_State* L, int index);
 void tolua_push_function_by_ref(lua_State* L, struct tolua_function_ref* func);
