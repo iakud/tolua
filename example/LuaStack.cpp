@@ -159,7 +159,7 @@ void LuaStack::pushSharedUserType(const std::shared_ptr<void>& ptr, const std::s
 	tolua_pushsharedusertype(L, ptr, name.c_str());
 }
 
-void LuaStack::pushFunction(tolua_function_ref* func) {
+void LuaStack::pushFunction(tolua_FunctionRef* func) {
 	tolua_push_function_by_ref(L, func);
 }
 
@@ -210,10 +210,19 @@ std::shared_ptr<void> LuaStack::toSharedUserType(int index, const std::string& n
 	return tolua_tosharedusertype(L, index, name.c_str());
 }
 
-tolua_function_ref* LuaStack::toFunction(int index) {
-	return tolua_ref_function(L, index);
+tolua_FunctionRef* LuaStack::toFunction(int index) {
+	return tolua_function_ref(L, index);
 }
 
+//
+// remove
+//
+void LuaStack::removeFunction(tolua_FunctionRef* func) {
+	tolua_remove_function_by_ref(L, func);
+}
+
+//
+// stack
 //
 int LuaStack::gettop() {
 	return lua_gettop(L);
@@ -246,7 +255,7 @@ void LuaStack::executeGlobalFunction(const std::string& functionName, int nargs,
 	execute(nargs, nresults);
 }
 
-void LuaStack::executeFunction(tolua_function_ref* func, int nargs, int nresults) {
+void LuaStack::executeFunction(tolua_FunctionRef* func, int nargs, int nresults) {
 	tolua_push_function_by_ref(L, func);
 	if (nargs > 0) {
 		lua_insert(L, -(nargs + 1));

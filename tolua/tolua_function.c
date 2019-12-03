@@ -1,16 +1,16 @@
 #include "tolua_function.h"
 #include <stdlib.h>
 
-struct tolua_function_ref {
+struct tolua_FunctionRef {
 };
 
-struct tolua_function_ref* tolua_ref_function(lua_State* L, int index) {
+struct tolua_FunctionRef* tolua_function_ref(lua_State* L, int index) {
 	if (!lua_isfunction(L, index))
 		return NULL;
 
 	lua_pushvalue(L, index);
 	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_function_ref");
-	struct tolua_function_ref* func = (struct tolua_function_ref*)malloc(sizeof(struct tolua_function_ref));
+	struct tolua_FunctionRef* func = (struct tolua_FunctionRef*)malloc(sizeof(struct tolua_FunctionRef));
 	lua_pushlightuserdata(L, func);
 	lua_insert(L, -3);
 	lua_insert(L, -3);
@@ -19,7 +19,7 @@ struct tolua_function_ref* tolua_ref_function(lua_State* L, int index) {
 	return func;
 }
 
-void tolua_push_function_by_ref(lua_State* L, struct tolua_function_ref* func) {
+void tolua_push_function_by_ref(lua_State* L, struct tolua_FunctionRef* func) {
 	if (func == NULL) {
 		lua_pushnil(L);
 		return;
@@ -30,7 +30,7 @@ void tolua_push_function_by_ref(lua_State* L, struct tolua_function_ref* func) {
 	lua_remove(L, -2);
 }
 
-void tolua_remove_function_by_ref(lua_State* L, struct tolua_function_ref* func) {
+void tolua_remove_function_by_ref(lua_State* L, struct tolua_FunctionRef* func) {
 	if (func == NULL)
 		return;
 	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_function_ref");

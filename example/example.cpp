@@ -6,16 +6,16 @@ class ClassA : public std::enable_shared_from_this<ClassA> {
 public:
 const char* getMessage() { return "call getMessage"; }
 
-	void setCallback(tolua_function_ref* callback) {
+	void setCallback(tolua_FunctionRef* callback) {
 		m_callback = callback;
 	}
 
-	tolua_function_ref* getCallback() {
+	tolua_FunctionRef* getCallback() {
 		return m_callback;
 	}
 
 private:
-	tolua_function_ref* m_callback;
+	tolua_FunctionRef* m_callback;
 };
 
 static int lua_ClassA_create(lua_State* L) {
@@ -57,7 +57,7 @@ static int lua_ClassA_setCallback(lua_State* L) {
 	}
 	int argc = lua_gettop(L) - 1;
 	if (argc == 1) {
-		tolua_function_ref* func = tolua_ref_function(L, 2);
+		tolua_FunctionRef* func = tolua_function_ref(L, 2);
 		a->setCallback(func);
 		lua_settop(L, 1);
 		return 1;
@@ -112,7 +112,7 @@ int main() {
 		std::cout<<"call createfunc"<<std::endl;
 		std::shared_ptr<ClassA> a_lua = std::static_pointer_cast<ClassA>(luaStack->toSharedUserType(-1, "ClassA"));
 		luaStack->clean();
-		tolua_function_ref* func = a_lua->getCallback();
+		tolua_FunctionRef* func = a_lua->getCallback();
 		luaStack->pushString("callback message");
 		luaStack->executeFunction(func, 1);
 		luaStack->clean();
