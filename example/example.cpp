@@ -57,7 +57,7 @@ static int lua_ClassA_setCallback(lua_State* L) {
 	}
 	int argc = lua_gettop(L) - 1;
 	if (argc == 1) {
-		tolua_FunctionRef* func = tolua_function_ref(L, 2);
+		tolua_FunctionRef* func = tolua_tofunction_ref(L, 2);
 		a->setCallback(func);
 		lua_settop(L, 1);
 		return 1;

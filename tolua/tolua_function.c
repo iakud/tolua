@@ -4,7 +4,7 @@
 struct tolua_FunctionRef {
 };
 
-struct tolua_FunctionRef* tolua_function_ref(lua_State* L, int index) {
+struct tolua_FunctionRef* tolua_tofunction_ref(lua_State* L, int index) {
 	if (!lua_isfunction(L, index))
 		return NULL;
 
@@ -19,7 +19,7 @@ struct tolua_FunctionRef* tolua_function_ref(lua_State* L, int index) {
 	return func;
 }
 
-void tolua_push_function_by_ref(lua_State* L, struct tolua_FunctionRef* func) {
+void tolua_pushfunction_ref(lua_State* L, struct tolua_FunctionRef* func) {
 	if (func == NULL) {
 		lua_pushnil(L);
 		return;
@@ -30,7 +30,7 @@ void tolua_push_function_by_ref(lua_State* L, struct tolua_FunctionRef* func) {
 	lua_remove(L, -2);
 }
 
-void tolua_remove_function_by_ref(lua_State* L, struct tolua_FunctionRef* func) {
+void tolua_removefunction_ref(lua_State* L, struct tolua_FunctionRef* func) {
 	if (func == NULL)
 		return;
 	lua_getfield(L, LUA_REGISTRYINDEX, "tolua_function_ref");

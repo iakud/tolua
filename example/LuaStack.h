@@ -48,7 +48,7 @@ public:
 	void pushUserType(void* p, const std::string& name);
 	void pushSharedUserType(const std::shared_ptr<void>& ptr, const char* name);
 	void pushSharedUserType(const std::shared_ptr<void>& ptr, const std::string& name);
-	void pushFunction(tolua_FunctionRef* func);
+	void pushFunctionRef(tolua_FunctionRef* func);
 
 	//
 	// to value
@@ -64,12 +64,12 @@ public:
 	void* toUserType(int index, const std::string& name);
 	std::shared_ptr<void> toSharedUserType(int index, const char* name);
 	std::shared_ptr<void> toSharedUserType(int index, const std::string& name);
-	tolua_FunctionRef* toFunction(int index);
+	tolua_FunctionRef* toFunctionRef(int index);
 
 	//
 	// remove
 	//
-	void removeFunction(tolua_FunctionRef* func);
+	void removeFunctionRef(tolua_FunctionRef* func);
 
 	//
 	// stack
