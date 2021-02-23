@@ -31,7 +31,7 @@ void tolua_open(lua_State* L) {
 }
 
 void tolua_module(lua_State* L, const char* name) {
-	if (name) {
+	if (name && *name) {
 		lua_pushstring(L, name);
 		lua_rawget(L, -2);
 		if (!lua_istable(L, -1)) {
@@ -46,7 +46,7 @@ void tolua_module(lua_State* L, const char* name) {
 }
 
 void tolua_beginmodule(lua_State* L, const char* name) {
-	if (name) {
+	if (name && *name) {
 		lua_pushstring(L, name);
 		lua_rawget(L, -2);
 		if (lua_istable(L, -1)) {
