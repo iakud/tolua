@@ -25,7 +25,7 @@ void tolua_pushsharedusertype(lua_State* L, const std::shared_ptr<void>& ptr, co
 		return;
 	}
 	lua_pushstring(L, "tolua_usertype_mapping");
-	lua_rawget(L,-2);
+	lua_rawget(L, -2);
 	if (lua_isnil(L, -1)) {
 		lua_pop(L, 1);
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_usertype_mapping");
@@ -90,7 +90,7 @@ std::shared_ptr<void> tolua_tosharedusertype(lua_State* L, int index, const char
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_super");
 		lua_insert(L, -2);
 		lua_rawget(L, -2);
-		if (lua_istable(L,-1)) {
+		if (lua_istable(L, -1)) {
 			lua_pushstring(L, name);
 			lua_rawget(L, -2);
 			if (lua_toboolean(L, -1)) {
@@ -119,7 +119,7 @@ void tolua_removesharedusertype(lua_State* L, const std::shared_ptr<void>& ptr, 
 		return;
 	}
 	lua_pushstring(L, "tolua_usertype_mapping");
-	lua_rawget(L,-2);
+	lua_rawget(L, -2);
 	if (lua_isnil(L, -1)) {
 		lua_pop(L, 1);
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_usertype_mapping");

@@ -47,7 +47,7 @@ static int class_index_event(lua_State* L) {
 }
 
 static int class_newindex_event(lua_State* L) {
-	int type = lua_type(L,1);
+	int type = lua_type(L, 1);
 	if (type == LUA_TUSERDATA) {
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_peers");
 		lua_pushvalue(L, 1);

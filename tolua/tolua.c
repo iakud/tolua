@@ -68,7 +68,7 @@ void tolua_function(lua_State* L, const char* name, lua_CFunction func) {
 }
 
 void tolua_usertype(lua_State* L, const char* name, lua_CFunction col/* = 0*/) {
-	if (luaL_newmetatable(L,name)) {
+	if (luaL_newmetatable(L, name)) {
 		tolua_classevents(L);
 		if (col) {
 			tolua_collector(L, col);
@@ -91,7 +91,7 @@ void tolua_inheritance(lua_State* L, const char* name, const char* base) {
 
 	if (!lua_isnil(L, -1)) {
 		lua_pushstring(L, "tolua_usertype_mapping");
-		lua_rawget(L,-2);
+		lua_rawget(L, -2);
 	} else {
 		lua_pushnil(L);
 	}
@@ -99,7 +99,7 @@ void tolua_inheritance(lua_State* L, const char* name, const char* base) {
 	if (!lua_isnil(L, -1)) {
 		lua_pushstring(L, "tolua_usertype_mapping");
 		lua_insert(L, -2);
-		lua_rawset(L,-4);
+		lua_rawset(L, -4);
 	} else {
 		lua_pop(L, 1);
 		lua_pushstring(L, "tolua_usertype_mapping");
@@ -219,7 +219,7 @@ void tolua_pushusertype(lua_State* L, void* p, const char* name) {
 	}
 
 	lua_pushstring(L, "tolua_usertype_mapping");
-	lua_rawget(L,-2);
+	lua_rawget(L, -2);
 	if (lua_isnil(L, -1)) {
 		lua_pop(L, 1);
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_usertype_mapping");
@@ -278,7 +278,7 @@ void* tolua_tousertype(lua_State* L, int index, const char* name) {
 		lua_getfield(L, LUA_REGISTRYINDEX, "tolua_super");
 		lua_insert(L, -2);
 		lua_rawget(L, -2);
-		if (lua_istable(L,-1)) {
+		if (lua_istable(L, -1)) {
 			lua_pushstring(L, name);
 			lua_rawget(L, -2);
 			if (lua_toboolean(L, -1)) {
