@@ -15,10 +15,6 @@ function load_author(book)
 	return book.author
 end
 
-function print_name(book)
-	print(book:name())
-end
-
 function test_error()
 	error("in test_error()")
 end

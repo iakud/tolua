@@ -48,7 +48,7 @@ static int book_name(lua_State* L) {
 		lua_pushstring(L, b->name());
 		return 1;
 	}
-	luaL_error(L, "'%s' has wrong number of arguments: %d, was expecting %d \n", __FUNCTION__, argc, 1);
+	luaL_error(L, "'%s' has wrong number of arguments: %d, was expecting %d \n", __FUNCTION__, argc, 0);
 	return 0;
 }
 
@@ -60,10 +60,8 @@ static int book_setSellCallback(lua_State* L) {
 	}
 	int argc = lua_gettop(L) - 1;
 	if (argc == 1) {
-		tolua_FunctionRef* func = tolua_tofunction_ref(L, 2);
-		b->setSellCallback(func);
-		lua_settop(L, 1);
-		return 1;
+		b->setSellCallback(tolua_tofunction_ref(L, 2));
+		return 0;
 	}
 	luaL_error(L, "'%s' has wrong number of arguments: %d, was expecting %d \n", __FUNCTION__, argc, 1);
 	return 0;
@@ -113,9 +111,8 @@ int main() {
 		luaStack->clean();
 		std::cout<<"call load_author, author: "<<author<<std::endl;
 
-		tolua_FunctionRef* func = b->getSellCallback();
 		luaStack->pushInt(6);
-		luaStack->executeFunction(func, 1);
+		luaStack->executeFunction(b->getSellCallback(), 1);
 		luaStack->clean();
 		std::cout<<"callback sell"<<std::endl;
 
