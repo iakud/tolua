@@ -104,8 +104,8 @@ int main() {
 		luaStack->pushSharedUserType(b, "Book");
 		luaStack->pushString("Roberto Ierusalimschy");
 		luaStack->executeGlobalFunction("store_author", 2);
-		std::cout<<"call store_author"<<std::endl;
 		luaStack->clean();
+		std::cout<<"call store_author"<<std::endl;
 
 		luaStack->pushSharedUserType(b, "Book");
 		luaStack->executeGlobalFunction("load_author", 1, 1);
