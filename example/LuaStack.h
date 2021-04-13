@@ -7,6 +7,7 @@ extern "C" {
 
 #include "tolua/tolua.h"
 #include "tolua/tolua_function.h"
+#include "tolua/tolua_call.h"
 
 #ifdef __cplusplus
 }

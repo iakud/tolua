@@ -269,21 +269,9 @@ void LuaStack::executeString(const char* codes) {
 }
 
 void LuaStack::execute(int nargs, int nresults) {
-	int functionIndex = formatIndex(-(nargs + 1));
-	int traceback = 0;
-	lua_getglobal(L, "__TRACKBACK__");
-	if (!lua_isfunction(L, -1)) {
-		lua_pop(L, 1);
-	} else {
-		lua_insert(L, functionIndex);
-		traceback = functionIndex;
-	}
-
-	if(lua_pcall(L, nargs, nresults, traceback) != 0) {
+	if (tolua_docall(L, nargs, nresults) != 0 && !lua_isnil(L, -1)) {
 		std::string error = lua_tostring(L, -1);
-		lua_pop(L, traceback ? 2 : 1);
+		lua_pop(L, 1);
 		throw std::runtime_error(error);
-	} else if (traceback) {
-		lua_remove(L, traceback);
 	}
 }

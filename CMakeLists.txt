@@ -17,7 +17,7 @@ set(CXX_FLAGS
 	-Wwrite-strings
 	-march=native
 	-std=c++11
-	-rdynamic
+	#-rdynamic
 	)
 
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
@@ -29,6 +29,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 include_directories(${PROJECT_SOURCE_DIR})
+link_directories(${PROJECT_SOURCE_DIR})
 
 string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 
