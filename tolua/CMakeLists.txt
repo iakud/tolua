@@ -13,6 +13,12 @@ endif()
 
 add_library(tolua ${SOURCE_FILES})
 
+if(NOT CMAKE_BUILD_NO_LUAJIT)
+	find_package(PkgConfig REQUIRED)
+	pkg_search_module(PKGS REQUIRED luajit)
+	target_include_directories(tolua PUBLIC ${PKGS_INCLUDE_DIRS})
+endif()
+
 install(TARGETS tolua DESTINATION lib)
 
 set(HEADERS

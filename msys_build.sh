@@ -10,10 +10,12 @@ BUILD_NO_EXAMPLES=0
 
 mkdir -p ${BUILD_DIR}/${BUILD_TYPE} \
 	&& cd ${BUILD_DIR}/${BUILD_TYPE} \
-	&& cmake \
+	&& cmake -G"MSYS Makefiles" \
+		-DCMAKE_MAKE_PROGRAM=mingw32-make.exe \
+		-DCMAKE_INSTALL_PREFIX=/mingw64 \
 		-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 		-DCMAKE_BUILD_NO_LUAJIT=${BUILD_NO_LUAJIT} \
 		-DCMAKE_BUILD_NO_SHARED=${BUILD_NO_SHARED} \
 		-DCMAKE_BUILD_NO_EXAMPLES=${BUILD_NO_EXAMPLES} \
 		${SOURCE_DIR} \
-	&& make $*
+	&& mingw32-make $*
