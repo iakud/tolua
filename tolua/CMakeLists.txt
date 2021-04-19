@@ -32,4 +32,8 @@ endif()
 
 install(FILES ${HEADERS} DESTINATION include/tolua)
 
+configure_file(tolua.pc.in
+	${CMAKE_CURRENT_BINARY_DIR}/tolua.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tolua.pc DESTINATION lib/pkgconfig)
+
 # add_executable(test ${SOURCE_FILES})
