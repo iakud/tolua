@@ -2,6 +2,11 @@
 
 #include "tolua_event.h"
 
+// lua 5.1
+#ifdef LUA_GLOBALSINDEX
+#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#endif
+
 void tolua_open(lua_State* L) {
 	// usertype
 	lua_newtable(L);
@@ -54,7 +59,7 @@ void tolua_beginmodule(lua_State* L, const char* name) {
 		}
 		lua_pop(L, 1);
 	}
-	lua_pushvalue(L, LUA_GLOBALSINDEX);
+	lua_pushglobaltable(L);
 }
 
 void tolua_endmodule(lua_State* L) {

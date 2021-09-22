@@ -13,9 +13,9 @@ endif()
 
 add_library(tolua ${SOURCE_FILES})
 
-if(NOT CMAKE_BUILD_NO_LUAJIT)
+if(CMAKE_BUILD_LUA_PC)
 	find_package(PkgConfig REQUIRED)
-	pkg_search_module(PKGS REQUIRED luajit)
+	pkg_search_module(PKGS REQUIRED ${CMAKE_BUILD_LUA_PC})
 	target_include_directories(tolua PUBLIC ${PKGS_INCLUDE_DIRS})
 endif()
 

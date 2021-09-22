@@ -2,15 +2,15 @@ add_executable(example LuaStack.cpp example.cpp)
 
 target_link_libraries(example tolua)
 
-if(NOT CMAKE_BUILD_NO_LUAJIT)
+if(CMAKE_BUILD_LUA_PC)
     find_package(PkgConfig REQUIRED)
-    pkg_search_module(PKGS REQUIRED luajit)
+    pkg_search_module(PKGS REQUIRED ${CMAKE_BUILD_LUA_PC})
     target_link_directories(example PUBLIC ${PKGS_LIBRARY_DIRS})
     target_link_libraries(example ${PKGS_LIBRARIES})
 else()
     target_link_libraries(example lua)
 endif()
 
-if(NOT CMAKE_SYSTEM_NAME MATCHES "Windows")
+if(CMAKE_BUILD_PLAT_MINGW)
     target_link_libraries(example dl)
 endif()
